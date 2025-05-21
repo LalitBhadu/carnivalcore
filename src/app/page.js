@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import WhatWeDoSection from "../Components/Home-child-components/WhatWeDoSection";
 import Testimonials from "../Components/Home-child-components/Testimonials";
 import StatsCounter from "../Components/Home-child-components/StatsCounter";
@@ -11,23 +11,21 @@ import Link from "next/link";
 import Products from "../Components/Home-child-components/products";
 import Slideshow from "../Components/Home-child-components/Slideshow";
 import Category from "../Components/Home-child-components/Category";
-import { motion } from 'framer-motion';
-
+import { motion } from "framer-motion";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
-    const [isClicked, setIsClicked] = useState(false);
-     const [inView, setInView] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const [inView, setInView] = useState(false);
   const ref = useRef();
 
-    const handleClick = () => {
+  const handleClick = () => {
     setIsClicked(true);
     // Navigate after animation finishes (500ms)
     setTimeout(() => {
       window.location.href = "/contact-us";
     }, 500);
   };
-
 
   useEffect(() => {
     // Simulate loading time
@@ -37,7 +35,7 @@ const Home = () => {
 
     return () => clearTimeout(timer);
   }, []);
-  
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -52,7 +50,6 @@ const Home = () => {
     };
   }, []);
 
-  
   const renderLoadingCards = () => {
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-3 mb-3">
@@ -92,14 +89,14 @@ const Home = () => {
                 <p className="text-lg md:text-2xl mb-6">
                   Your Global Partner in Premium Trade & Sourcing Solutions
                 </p>
-               <button
-      onClick={handleClick}
-      className={`inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded cursor-pointer transform transition-all duration-500 ease-in-out ${
-        isClicked ? "translate-x-full opacity-0" : ""
-      }`}
-    >
-      Get in Touch
-    </button>
+                <button
+                  onClick={handleClick}
+                  className={`inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded cursor-pointer transform transition-all duration-500 ease-in-out ${
+                    isClicked ? "translate-x-full opacity-0" : ""
+                  }`}
+                >
+                  Get in Touch
+                </button>
               </div>
 
               {/* Right Column: Image */}

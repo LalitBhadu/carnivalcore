@@ -27,7 +27,7 @@ export default function Footer() {
             />
           </Link>
           <p className="text-sm leading-relaxed text-gray-300">
-            Welcome to the Chandan Singh Foundation, where compassion meets
+            Welcome to the Carnival Core Trade LLC, where compassion meets
             impact.
           </p>
           <div className="flex gap-3 mt-4">

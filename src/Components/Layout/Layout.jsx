@@ -26,8 +26,8 @@ const Layout = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Chandan Singh Foundation</title>
-        <meta name="description" content="Alex Upadhyay Official site - Music, Tour & Merch" />
+        <title>Carnival Core Trade LLC</title>
+        <meta name="description" content="Carnival Core Trade LLC" />
         <meta name="keywords" content="feelinghub, Share your feeling" />
         <meta name="author" content="Lalit Bhadu (89305-36805)" />
       </Head>
@@ -35,7 +35,7 @@ const Layout = ({ children }) => {
       {loading && <Loader />}
 
       <div className="flex flex-col min-h-screen">
-            <Toaster position="top-center" reverseOrder={false} />
+       <Toaster position="top-right" reverseOrder={false} />
         <Header />
         <main className="flex-grow">
          <AuthProvider>
