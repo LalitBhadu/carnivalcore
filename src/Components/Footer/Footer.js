@@ -106,7 +106,7 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="text-center text-xs text-gray-400 mt-10 border-t border-gray-700 pt-6">
-        © {new Date().getFullYear()} Carnival Core Trade LLC. All rights reserved.
+        ©© 2015 - {new Date().getFullYear()} Carnival Core Trade LLC. All rights reserved.
       </div>
     </footer>
   );

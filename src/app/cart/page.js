@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../Components/Layout/Layout";
 import toast, { Toaster } from "react-hot-toast";
+import { motion } from "framer-motion";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -54,7 +55,21 @@ const Cart = () => {
       <div className="mt-10 px-6">
         <h2 className="text-2xl font-semibold mb-4 text-gray-800">Your Cart</h2>
         {cart.length === 0 ? (
-          <p className="text-gray-500">Cart is empty.</p>
+          <>
+            <div className="flex flex-col items-center justify-center h-[60vh] text-center">
+  <p className="text-gray-500 text-lg mb-4">Cart is empty.</p>
+  <motion.img
+    src="/assets/cart-5504_256.gif"
+    alt="Shopping Cart Animation"
+    className="w-72 h-auto rounded-xl shadow-lg"
+    initial={{ opacity: 0, y: 50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.8 }}
+  />
+</div>
+
+          </>
         ) : (
           <>
             {cart.map((item) => (
