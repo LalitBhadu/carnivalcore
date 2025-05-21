@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 import Layout from "../../Components/Layout/Layout";
+import { Eye, ShoppingCart } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
+
 
 const products = [
   {
@@ -129,25 +132,32 @@ const ProductCard = ({ product, onAddToCart }) => {
           {product.productName}
         </h3>
       </div>
-      <Link href={`/products/${slug}`}>
-        <button
-          onClick={() => onAddToCart(product)}
-          className="absolute bottom-3 right-3 bg-blue-600 text-white rounded shadow hover:bg-red-700 w-100 transition"
-        >
-          View
-        </button>
-      </Link>
+    {/* Hover Buttons */}
       {hovered && (
-        <button
-          onClick={(e) => {
-            e.preventDefault(); // Stop Link navigation
-            e.stopPropagation();
-            onAddToCart(product);
-          }}
-          className="absolute bottom-3 right-3 bg-blue-600 text-white rounded shadow hover:bg-red-700 px-3 py-1 text-sm transition"
-        >
-          Add to Cart
-        </button>
+        <>
+          {/* View Button */}
+          <Link href={`/products/${slug}`} className="absolute bottom-3 right-16">
+            <button
+              className="bg-red-600 text-white rounded-full p-2 hover:bg-red-700 transition"
+              title="View"
+            >
+              <Eye size={20} />
+            </button>
+          </Link>
+
+          {/* Add to Cart Button */}
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onAddToCart(product);
+            }}
+            className="absolute bottom-3 right-3 bg-blue-600 text-white rounded-full p-2 hover:bg-blue-700 transition"
+            title="Add to Cart"
+          >
+            <ShoppingCart size={20} />
+          </button>
+        </>
       )}
     </div>
   );
@@ -155,9 +165,19 @@ const ProductCard = ({ product, onAddToCart }) => {
 
 const ProductPage = () => {
   const handleAddToCart = (product) => {
-    console.log("Added to cart:", product);
-    // Aap yahan localStorage ya context API ka use bhi kar sakte ho
-    alert(`"${product.productName}" added to cart!`);
+    const existingCart = localStorage.getItem("cart");
+    let cart = existingCart ? JSON.parse(existingCart) : [];
+
+    // Optional: check if product already in cart
+    const isAlreadyInCart = cart.find((item) => item.productName === product.productName);
+    if (!isAlreadyInCart) {
+      cart.push(product);
+      localStorage.setItem("cart", JSON.stringify(cart));
+          toast.success(`"${product.productName}" added to cart!`);
+    } else {
+       toast.warning(`"${product.productName}" is already in the cart.`);
+
+    }
   };
   return (
     <Layout>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import Layout from "../../Components/Layout/Layout";
+import { Eye, ShoppingCart } from "lucide-react";
 
 const products = [
   {
@@ -60,7 +61,6 @@ const Product = ({ product }) => {
   const slug = product.productName.toLowerCase().replace(/\s+/g, "-");
 
   return (
-      <Link href={`/products/${slug}`}>
         <div
           className="relative cursor-pointer border border-gray-300 rounded shadow-sm overflow-hidden group"
             style={{ width: '100%', maxWidth: '300px', height: '340px' }}  // Fixed size container
@@ -88,12 +88,52 @@ const Product = ({ product }) => {
               {product.productName}
             </h3>
           </div>
+          {/* Hover Buttons */}
+      {hovered && (
+        <>
+          {/* View Button */}
+          <Link href={`/products/${slug}`} className="absolute bottom-3 right-16">
+            <button
+              className="bg-red-600 text-white rounded-full p-2 hover:bg-red-700 transition"
+              title="View"
+            >
+              <Eye size={20} />
+            </button>
+          </Link>
+
+          {/* Add to Cart Button */}
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onAddToCart(product);
+            }}
+            className="absolute bottom-3 right-3 bg-blue-600 text-white rounded-full p-2 hover:bg-blue-700 transition"
+            title="Add to Cart"
+          >
+            <ShoppingCart size={20} />
+          </button>
+        </>
+      )}
         </div>
-      </Link>
   );
 };
 
 const Products = () => {
+  const handleAddToCart = (product) => {
+    const existingCart = localStorage.getItem("cart");
+    let cart = existingCart ? JSON.parse(existingCart) : [];
+
+    // Optional: check if product already in cart
+    const isAlreadyInCart = cart.find((item) => item.productName === product.productName);
+    if (!isAlreadyInCart) {
+      cart.push(product);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`"${product.productName}" added to cart!`);
+    } else {
+      alert(`"${product.productName}" is already in the cart.`);
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-5 md:px-20">
       <h1 className="text-4xl font-bold text-center mb-12 text-gray-900">

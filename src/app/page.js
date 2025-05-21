@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import WhatWeDoSection from "../Components/Home-child-components/WhatWeDoSection";
 import Testimonials from "../Components/Home-child-components/Testimonials";
 import StatsCounter from "../Components/Home-child-components/StatsCounter";
@@ -8,13 +8,26 @@ import NewsletterSection from "../Components/Home-child-components/NewsletterSec
 import Layout from "../Components/Layout/Layout";
 import Image from "next/image";
 import Link from "next/link";
-import Blogs from "./blogs/page";
 import Products from "../Components/Home-child-components/products";
 import Slideshow from "../Components/Home-child-components/Slideshow";
 import Category from "../Components/Home-child-components/Category";
+import { motion } from 'framer-motion';
+
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
+    const [isClicked, setIsClicked] = useState(false);
+     const [inView, setInView] = useState(false);
+  const ref = useRef();
+
+    const handleClick = () => {
+    setIsClicked(true);
+    // Navigate after animation finishes (500ms)
+    setTimeout(() => {
+      window.location.href = "/contact-us";
+    }, 500);
+  };
+
 
   useEffect(() => {
     // Simulate loading time
@@ -24,7 +37,22 @@ const Home = () => {
 
     return () => clearTimeout(timer);
   }, []);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { threshold: 0.2 }
+    );
 
+    if (ref.current) observer.observe(ref.current);
+    return () => {
+      if (ref.current) observer.unobserve(ref.current);
+    };
+  }, []);
+
+  
   const renderLoadingCards = () => {
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-3 mb-3">
@@ -64,11 +92,14 @@ const Home = () => {
                 <p className="text-lg md:text-2xl mb-6">
                   Your Global Partner in Premium Trade & Sourcing Solutions
                 </p>
-                <Link href="/contact-us">
-                  <p className="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded">
-                    Get in Touch
-                  </p>
-                </Link>
+               <button
+      onClick={handleClick}
+      className={`inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded cursor-pointer transform transition-all duration-500 ease-in-out ${
+        isClicked ? "translate-x-full opacity-0" : ""
+      }`}
+    >
+      Get in Touch
+    </button>
               </div>
 
               {/* Right Column: Image */}
@@ -76,8 +107,7 @@ const Home = () => {
                 <img
                   src="https://carnivalcore.com/assets/images/agro9.jpg"
                   alt="Meet"
-                  width={500}
-                  height={400}
+                  style={{ height: "500px" }}
                   className="rounded-lg mt-5"
                 />
               </div>
@@ -139,12 +169,12 @@ const Home = () => {
           </div>
 
           <WhatWeDoSection />
-        <div className="bg-[#005c4b] text-white rounded-xl mx-auto max-w-5xl py-8 px-6 grid grid-cols-2 md:grid-cols-4 text-center gap-y-6 mb-16 mt-10">
-  <StatsCounter value="20+" label="Agro Products" />
-  <StatsCounter value="15+" label="Industrial Equipment" />
-  <StatsCounter value="10+" label="Home Appliances" />
-  <StatsCounter value="12+" label="Fashion Garments" />
-</div>
+          <div className="bg-[#005c4b] text-white rounded-xl mx-auto max-w-5xl py-8 px-6 grid grid-cols-2 md:grid-cols-4 text-center gap-y-6 mb-16 mt-10">
+            <StatsCounter value="20+" label="Agro Products" />
+            <StatsCounter value="15+" label="Industrial Equipment" />
+            <StatsCounter value="10+" label="Home Appliances" />
+            <StatsCounter value="12+" label="Fashion Garments" />
+          </div>
 
           <Testimonials />
           <NewsletterSection />
